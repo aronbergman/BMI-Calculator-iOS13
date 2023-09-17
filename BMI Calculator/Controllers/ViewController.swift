@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var calculatorBrain = CalculatorBrain()
+    
     @IBOutlet weak var heightLabelAction: UILabel!
     @IBOutlet weak var weightLabelAction: UILabel!
     @IBOutlet weak var heightSlider: UISlider!
@@ -23,17 +25,18 @@ class ViewController: UIViewController {
     @IBAction func heightSliderChanged(_ sender: UISlider) {
         let formatValue = String(format: "%.2f", sender.value)
         heightLabelAction.text = "\(formatValue) m"
+        calculatorBrain.setHight(hight: sender.value)
     }
     
     @IBAction func weightSliderChanged(_ sender: UISlider) {
         let formatValue = String(format: "%.0f", sender.value)
         weightLabelAction.text = "\(formatValue) kg"
+        calculatorBrain.setWeight(weight: sender.value)
     }
     
     @IBAction func calculatePressed(_ sender: UIButton) {
-        let hight = heightSlider.value
-        let weight = weightSlider.value
-        let bmiValue = weight / (hight * hight)
+    
+        let bmiValue = calculatorBrain.setBmiValue()
         
         let secondVC = SecondViewController()
         secondVC.bmiValue = String(format: "%.1f", bmiValue)
