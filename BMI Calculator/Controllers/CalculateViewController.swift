@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CalculateViewController: UIViewController {
 
     var calculatorBrain = CalculatorBrain()
     
@@ -35,13 +35,16 @@ class ViewController: UIViewController {
     }
     
     @IBAction func calculatePressed(_ sender: UIButton) {
+        calculatorBrain.calculatingBMI()
+        self.performSegue(withIdentifier: "goToResult", sender: self)
+    }
     
-        let bmiValue = calculatorBrain.setBmiValue()
-        
-        let secondVC = SecondViewController()
-        secondVC.bmiValue = String(format: "%.1f", bmiValue)
-        
-        self.present(secondVC, animated: true, completion: nil)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let bmiValue = calculatorBrain.getBmiValue()
+        if segue.identifier == "goToResult" {
+            let detinationVC = segue.destination as! ResultsViewController
+            detinationVC.bmiValue = bmiValue
+        }
     }
 }
 
